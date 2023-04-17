@@ -71,9 +71,6 @@ public class GameLoop extends Thread{
                 }
             }
 
-
-
-
             //pause the game Loop to not exceed target UPS
             elapsedTime = System.currentTimeMillis() - startTime;
             sleepTime = (long) (updateСount*UPS_PERIOD - elapsedTime);
