@@ -8,10 +8,10 @@ public class Joystick {
 
     private Paint outerCirclePaint;
     private Paint innerCirclePaint;
-    private int outerCircleCenterPositionX;
-    private int outerCircleCenterPositionY;
-    private int innerCircleCenterPositionX;
-    private int innerCircleCenterPositionY;
+    public int outerCircleCenterPositionX;
+    public int outerCircleCenterPositionY;
+    public int innerCircleCenterPositionX;
+    public int innerCircleCenterPositionY;
     private int outerCircleRadius;
     private int innerCircleRadius;
     private double joystickCenterToTouchDistance;
@@ -37,11 +37,12 @@ public class Joystick {
         outerCirclePaint.setStyle(Paint.Style.FILL_AND_STROKE);
 
         innerCirclePaint = new Paint();
-        innerCirclePaint.setColor(Color.BLUE);
+        innerCirclePaint.setColor(Color.GREEN);
         innerCirclePaint.setStyle(Paint.Style.FILL_AND_STROKE);
     }
 
     public void draw(Canvas canvas) {
+
         //draw outer circle
         canvas.drawCircle(
                 outerCircleCenterPositionX,
@@ -49,7 +50,6 @@ public class Joystick {
                 outerCircleRadius,
                 outerCirclePaint
         );
-
         //draw inner circle
         canvas.drawCircle(
                 innerCircleCenterPositionX,
@@ -57,6 +57,7 @@ public class Joystick {
                 innerCircleRadius,
                 innerCirclePaint
         );
+
     }
 
     public void update() {
@@ -99,6 +100,15 @@ public class Joystick {
             actuatorX = deltaX/deltaDistance;
             actuatorY = deltaY/deltaDistance;
         }
+    }
+
+    //finding player direction angle
+    public float getRotationAngle(){
+        double sideDistance = innerCircleCenterPositionX - outerCircleCenterPositionX;
+        if(sideDistance==0){
+            return 0;
+        }
+        return (float) Math.toDegrees(Math.atan2(innerCircleCenterPositionY - outerCircleCenterPositionY, innerCircleCenterPositionX - outerCircleCenterPositionX));
     }
 
     public void resetActuator() {

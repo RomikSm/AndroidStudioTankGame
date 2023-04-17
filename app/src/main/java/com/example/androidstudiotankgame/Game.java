@@ -1,15 +1,13 @@
 package com.example.androidstudiotankgame;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.media.metrics.PlaybackErrorEvent;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
-
+import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
@@ -32,12 +30,19 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         gameLoop = new GameLoop(this, surfaceHolder);
 
+        // get the display height
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        int screenHeight = displayMetrics.heightPixels;
+
         //initialize game objects
-        joystick = new Joystick(275, 700, 70, 40);
-        player = new Player(getContext(), 500, 500, BitmapFactory.decodeResource(context.getResources(), R.drawable.earth));
+        joystick = new Joystick(275, screenHeight-400, 150, 70);
+        player = new Player(getContext(), 500, 500, R.drawable.water);
 
         setFocusable(true);
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -85,7 +90,10 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         drawFPS(canvas);
 
         joystick.draw(canvas);
-        player.draw(canvas);
+
+        player.draw(canvas, joystick.getRotationAngle());
+
+
     }
 
     public void drawUPS(Canvas canvas){        
