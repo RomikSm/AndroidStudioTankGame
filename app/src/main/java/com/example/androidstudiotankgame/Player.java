@@ -2,10 +2,15 @@ package com.example.androidstudiotankgame;
 
 
 
+
 import android.content.Context;
+
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.drawable.PictureDrawable;
+import android.graphics.Rect;
 
 import androidx.core.content.ContextCompat;
 
@@ -13,25 +18,23 @@ public class Player {
 
     private double positionX;
     private double positionY;
-    private double radius;
     private Paint paint;
+    Bitmap tankBitMap;
 
 
-    public Player(Context context, double positionX, double positionY, double radius){
+    public Player(Context context, double positionX, double positionY, Bitmap tankBitMap){
         this.positionX = positionX;
         this.positionY = positionY;
-        this.radius = radius;
+        this.tankBitMap = tankBitMap;
 
         paint = new Paint();
-        int color = ContextCompat.getColor(context, R.color.player);
-        paint.setColor(color);
+
     }
 
 
-
-
     public void draw(Canvas canvas) {
-        canvas.drawCircle((float) positionX,(float) positionY,(float) radius, paint);
+        canvas.drawBitmap(tankBitMap, null, new Rect((int) (positionX-150), (int) (positionY-105), (int) (positionX+150), (int) (positionY+105)), paint);
+
     }
 
     public void update() {

@@ -1,6 +1,7 @@
 package com.example.androidstudiotankgame;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.media.metrics.PlaybackErrorEvent;
@@ -31,7 +32,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         gameLoop = new GameLoop(this, surfaceHolder);
 
         //initialize player
-        player = new Player(getContext(), 500, 500, 40);
+        player = new Player(getContext(), 500, 500, BitmapFactory.decodeResource(context.getResources(), R.drawable.earth));
 
         setFocusable(true);
     }
