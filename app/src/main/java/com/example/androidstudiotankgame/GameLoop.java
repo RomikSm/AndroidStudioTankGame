@@ -1,17 +1,15 @@
 package com.example.androidstudiotankgame;
 
 import android.graphics.Canvas;
-import android.view.Surface;
 import android.view.SurfaceHolder;
 
-import java.util.Observer;
 
 public class GameLoop extends Thread{
-    private static final double MAX_UPS = 60.0;
+    public static final double MAX_UPS = 60.0;
     private static final double UPS_PERIOD = 1E+3/MAX_UPS;
     private boolean isRunning = false;
-    private SurfaceHolder surfaceHolder;
-    private Game game;
+    private final SurfaceHolder surfaceHolder;
+    private final Game game;
     private double averageUPS;
     private double averageFPS;
 
@@ -38,8 +36,8 @@ public class GameLoop extends Thread{
         super.run();
 
         //declare time and cycle count variables
-        int updateСount = 0;
-        int frameСount = 0;
+        int updateCount = 0;
+        int frameCount = 0;
 
         long startTime;
         long elapsedTime;
@@ -55,7 +53,7 @@ public class GameLoop extends Thread{
                 canvas = surfaceHolder.lockCanvas();
                 synchronized (surfaceHolder){
                     game.update();
-                    updateСount++;
+                    updateCount++;
                     game.draw(canvas);
                 }
             }catch (IllegalArgumentException e){
@@ -64,7 +62,7 @@ public class GameLoop extends Thread{
                 if (canvas != null) {
                     try {
                         surfaceHolder.unlockCanvasAndPost(canvas);
-                        frameСount++;
+                        frameCount++;
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -73,7 +71,7 @@ public class GameLoop extends Thread{
 
             //pause the game Loop to not exceed target UPS
             elapsedTime = System.currentTimeMillis() - startTime;
-            sleepTime = (long) (updateСount*UPS_PERIOD - elapsedTime);
+            sleepTime = (long) (updateCount*UPS_PERIOD - elapsedTime);
             if(sleepTime > 0){
                 try {
                     sleep(sleepTime);
@@ -83,20 +81,20 @@ public class GameLoop extends Thread{
             }
 
             //skip frames to keep up with UPS
-            while(sleepTime < 0 && updateСount < MAX_UPS-1){
+            while(sleepTime < 0 && updateCount < MAX_UPS-1){
                 game.update();
-                updateСount++;
+                updateCount++;
                 elapsedTime = System.currentTimeMillis() - startTime;
-                sleepTime = (long) (updateСount*UPS_PERIOD - elapsedTime);
+                sleepTime = (long) (updateCount*UPS_PERIOD - elapsedTime);
             }
 
             //calculate avg UPS and FPS
             elapsedTime = System.currentTimeMillis() - startTime;
             if(elapsedTime >= 1000){
-                averageUPS = updateСount / (1E-3 * elapsedTime);
-                averageFPS = frameСount / (1E-3 * elapsedTime);
-                updateСount = 0;
-                frameСount = 0;
+                averageUPS = updateCount / (1E-3 * elapsedTime);
+                averageFPS = frameCount / (1E-3 * elapsedTime);
+                updateCount = 0;
+                frameCount = 0;
                 startTime = System.currentTimeMillis();
             }
         }
