@@ -36,9 +36,7 @@ public class Player {
 
     public void draw(Canvas canvas, float rotationAngle) {
         canvas.save();
-        if(rotationAngle!=0){
-            previousRotationAngle = rotationAngle;
-        }
+        if(rotationAngle!=0) previousRotationAngle = rotationAngle;
         canvas.rotate(previousRotationAngle, (float) (positionX), (float) (positionY));
         canvas.drawBitmap(tankBitMap, null, new Rect((int) (positionX - playerCenterX), (int) (positionY - playerCenterY), (int) (positionX + playerCenterX), (int) (positionY + playerCenterY)), paint);
         canvas.restore();

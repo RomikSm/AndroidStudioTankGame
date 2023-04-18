@@ -21,7 +21,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     private final Joystick joystick;
     private GameLoop gameLoop;
 
-    public Game(Context context) {
+    public Game(Context context, int tank_type) {
         super(context);
 
         //get surface holder and add callback
@@ -37,8 +37,8 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         int screenHeight = displayMetrics.heightPixels;
 
         //initialize game objects
-        joystick = new Joystick(275, screenHeight-400, 150, 70);
-        player = new Player(getContext(), 500, 500, R.drawable.water);
+        joystick = new Joystick(275, screenHeight-400, 150, 75);
+        player = new Player(getContext(), 500, 500, tank_type);
 
         setFocusable(true);
     }
