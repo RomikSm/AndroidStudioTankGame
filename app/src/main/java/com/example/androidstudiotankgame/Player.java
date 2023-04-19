@@ -24,10 +24,12 @@ public class Player {
     private float previousRotationAngle = 0;
 
 
+
     public Player(Context context, double positionX, double positionY, int drawable){
         this.positionX = positionX;
         this.positionY = positionY;
         this.tankBitMap = BitmapFactory.decodeResource(context.getResources(), drawable);
+
 
         paint = new Paint();
 
@@ -47,9 +49,28 @@ public class Player {
         velocityY = joystick.getActuatorY()*MAX_SPEED;
         positionX += velocityX;
         positionY += velocityY;
+
     }
 
-//    public void setPosition(double positionX, double positionY) {
+
+
+    public int getPlayerCenterX() {
+        return playerCenterX;
+    }
+
+    public int getPlayerCenterY() {
+        return playerCenterY;
+    }
+
+    public double getPositionX() {
+        return positionX;
+    }
+
+    public double getPositionY() {
+        return positionY;
+    }
+
+    //    public void setPosition(double positionX, double positionY) {
 //        this.positionX = positionX;
 //        this.positionY = positionY;
 //    }

@@ -1,5 +1,6 @@
 package com.example.androidstudiotankgame;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -10,10 +11,22 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Random;
+import java.util.UUID;
 
 public class PlayerName extends AppCompatActivity {
     ImageButton continueBtn;
     EditText usernameEditText;
+
+    String username;
+    FirebaseDatabase database;
+    DatabaseReference dbReference;
+
+    public PlayerName(){}
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -29,13 +42,25 @@ public class PlayerName extends AppCompatActivity {
         usernameEditText = findViewById(R.id.usernameEditText);
 
 
+
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isEmpty(usernameEditText)){
-                    Toast.makeText(PlayerName.this, "Enter your name!", Toast.LENGTH_SHORT).show();
-                }else openGameModeChoiceActivity();;
+                username = usernameEditText.getText().toString();
+                database = FirebaseDatabase.getInstance();
+                dbReference = database.getReference("Users");
 
+                if(username.isEmpty()){
+                    username = "Player" + String.valueOf(
+                            new Random().ints(100000,
+                                            999999)
+                            .findFirst()
+                            .getAsInt());
+                }
+                User user = new User(username);
+                dbReference.child(username).setValue(user);
+
+                openGameModeChoiceActivity();
             }
         });
 
@@ -47,7 +72,15 @@ public class PlayerName extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
-    private boolean isEmpty(EditText etText) {
-        return etText.getText().toString().trim().length() == 0;
+    public String getUsername() {
+        return username;
+    }
+
+    public FirebaseDatabase getDatabase() {
+        return database;
+    }
+
+    public DatabaseReference getDbReference() {
+        return dbReference;
     }
 }

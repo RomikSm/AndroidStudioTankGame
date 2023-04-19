@@ -11,15 +11,19 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 /**
  * Game manages all objects int the game and is responsible for updating all states and render all
  * objects to the screen
  */
 
 public class Game extends SurfaceView implements SurfaceHolder.Callback {
-    private final Player player;
+    private Player player;
     private final Joystick joystick;
     private GameLoop gameLoop;
+
 
     public Game(Context context, int tank_type) {
         super(context);
@@ -44,6 +48,8 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     }
 
 
+
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
@@ -66,6 +72,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         return super.onTouchEvent(event);
+
     }
 
     @Override
@@ -88,13 +95,11 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
         drawUPS(canvas);
         drawFPS(canvas);
-
         joystick.draw(canvas);
-
         player.draw(canvas, joystick.getRotationAngle());
 
-
     }
+
 
     public void drawUPS(Canvas canvas){        
         String averageUPS = Double.toString(gameLoop.getAverageUPS());
@@ -115,6 +120,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update() {
+
         //update game state
         joystick.update();
         player.update(joystick);
