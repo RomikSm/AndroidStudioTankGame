@@ -66,7 +66,6 @@ public class TankChoice extends AppCompatActivity {
 
     public void openOfflineGameActivity(){
         Intent intent = new Intent(this, OfflineGame.class);
-        intent.putExtra("tank_type", tank_type);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }

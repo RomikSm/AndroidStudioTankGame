@@ -1,5 +1,7 @@
 package com.example.androidstudiotankgame;
 
+import static com.example.androidstudiotankgame.TankChoice.tank_type;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -10,9 +12,6 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Game manages all objects int the game and is responsible for updating all states and render all
@@ -25,7 +24,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     private GameLoop gameLoop;
 
 
-    public Game(Context context, int tank_type) {
+    public Game(Context context) {
         super(context);
 
         //get surface holder and add callback

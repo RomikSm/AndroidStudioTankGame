@@ -3,23 +3,27 @@ package com.example.androidstudiotankgame;
 public class User {
 
     private String name;
-    private String positionX;
-    private String positionY;
-
+    private String posX;
+    private String posY;
 
     public User() {}
 
-    public User(String name) {
+    public User(String name, double posX, double posY) {
         this.name = name;
+        this.posX = String.valueOf(posX);
+        this.posY = String.valueOf(posY);
+
     }
 
     public String getName() {
         return name;
     }
 
-    public User(String name, String positionX, String positionY) {
-        this.name = name;
-        this.positionX = positionX;
-        this.positionY = positionY;
+    public String getPosX() {
+        return posX;
+    }
+
+    public String getPosY() {
+        return posY;
     }
 }

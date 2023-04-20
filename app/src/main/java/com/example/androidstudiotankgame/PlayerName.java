@@ -10,20 +10,22 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+
 
 public class PlayerName extends AppCompatActivity {
     ImageButton continueBtn;
     EditText usernameEditText;
-
-    String username;
+    public static String username;
     FirebaseDatabase database;
     DatabaseReference dbReference;
+    public static String user_uuid;
 
     public PlayerName(){}
 
@@ -46,7 +48,7 @@ public class PlayerName extends AppCompatActivity {
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                username = usernameEditText.getText().toString();
+                username = usernameEditText.getText().toString().trim();
                 database = FirebaseDatabase.getInstance();
                 dbReference = database.getReference("Users");
 
@@ -57,13 +59,24 @@ public class PlayerName extends AppCompatActivity {
                             .findFirst()
                             .getAsInt());
                 }
-                User user = new User(username);
-                dbReference.child(username).setValue(user);
+
+                user_uuid = UUID.randomUUID().toString();
+
+                pushPositionToDatabase();
 
                 openGameModeChoiceActivity();
             }
         });
 
+    }
+
+    private void pushPositionToDatabase(){
+        User user = new User(username, 0, 0);
+        Map<String, String> map = new HashMap<>();
+        map.put("name", user.getName());
+        map.put("posX", user.getPosX());
+        map.put("posY", user.getPosY());
+        dbReference.child(user_uuid).setValue(map);
     }
 
     public void openGameModeChoiceActivity(){

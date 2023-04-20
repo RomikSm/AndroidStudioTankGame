@@ -11,13 +11,12 @@ public class OfflineGame extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tank_type = getIntent().getIntExtra("tank_type", 0);
 
         //making fullscreen with no status bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(new Game(this, tank_type));
+        setContentView(new Game(this));
 
     }
 }
