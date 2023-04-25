@@ -1,9 +1,11 @@
 package com.example.androidstudiotankgame;
 
+import static com.example.androidstudiotankgame.MainActivity.dbReference;
+import static com.example.androidstudiotankgame.MainActivity.gameCode;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -31,11 +33,13 @@ public class TankChoice extends AppCompatActivity {
         fireTankBtn = findViewById(R.id.fireTankBtn);
         airTankBtn = findViewById(R.id.airTankBtn);
 
+
         waterTankBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 tank_type = R.drawable.water_tank;
-                openOfflineGameActivity();
+                openWaitingRoomActivity();
+
             }
         });
 
@@ -43,7 +47,7 @@ public class TankChoice extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 tank_type = R.drawable.earth_tank;
-                openOfflineGameActivity();
+                openWaitingRoomActivity();
             }
         });
 
@@ -51,7 +55,7 @@ public class TankChoice extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 tank_type = R.drawable.fire_tank;
-                openOfflineGameActivity();
+                openWaitingRoomActivity();
             }
         });
 
@@ -59,13 +63,19 @@ public class TankChoice extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 tank_type = R.drawable.air_tank;
-                openOfflineGameActivity();
+                openWaitingRoomActivity();
             }
         });
     }
 
     public void openOfflineGameActivity(){
         Intent intent = new Intent(this, OfflineGame.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    public void openWaitingRoomActivity(){
+        Intent intent = new Intent(this, WaitingRoom.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }

@@ -1,7 +1,11 @@
 package com.example.androidstudiotankgame;
 
+import static com.example.androidstudiotankgame.MainActivity.dbReference;
+import static com.example.androidstudiotankgame.MainActivity.gameCode;
+import static com.example.androidstudiotankgame.PlayerName.group_uuid;
 import static com.example.androidstudiotankgame.PlayerName.user_uuid;
 import static com.example.androidstudiotankgame.PlayerName.username;
+import static com.example.androidstudiotankgame.TankChoice.tank_type;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -20,8 +24,6 @@ public class Player {
 
     private double positionX;
     private double positionY;
-    private String receivedPositionX;
-    private double receivedPositionY;
     private final Paint paint;
     Bitmap tankBitMap;
     private static final double SPEED_PIXELS_PER_SECOND = 400.0;
@@ -31,27 +33,26 @@ public class Player {
     private final int playerCenterX = playerWidth /2;
     private final int playerCenterY = playerHeight/2;
     private float previousRotationAngle = 0;
-
-
-    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private final DatabaseReference dbReference = database.getReference("Users");
-    private DatabaseReference childRef = dbReference.child(user_uuid);
-
-
-
-
+    private  int tankType;
 
     public Player(Context context, double positionX, double positionY, int drawable){
         this.positionX = positionX;
         this.positionY = positionY;
-        this.tankBitMap = BitmapFactory.decodeResource(context.getResources(), drawable);
+        this.tankType = drawable;
+        this.tankBitMap = BitmapFactory.decodeResource(context.getResources(), tankType);
         paint = new Paint();
     }
 
     public void draw(Canvas canvas, float rotationAngle) {
-
         canvas.save();
         if(rotationAngle!=0) previousRotationAngle = rotationAngle;
+        canvas.rotate(previousRotationAngle, (float) (positionX), (float) (positionY));
+        canvas.drawBitmap(tankBitMap, null, new Rect((int) (positionX - playerCenterX), (int) (positionY - playerCenterY), (int) (positionX + playerCenterX), (int) (positionY + playerCenterY)), paint);
+        canvas.restore();
+    }
+
+    public void draw(Canvas canvas) {
+        canvas.save();
         canvas.rotate(previousRotationAngle, (float) (positionX), (float) (positionY));
         canvas.drawBitmap(tankBitMap, null, new Rect((int) (positionX - playerCenterX), (int) (positionY - playerCenterY), (int) (positionX + playerCenterX), (int) (positionY + playerCenterY)), paint);
         canvas.restore();
@@ -63,37 +64,30 @@ public class Player {
         positionX += velocityX;
         positionY += velocityY;
         pushPositionToDatabase();
-
     }
 
     private void pushPositionToDatabase(){
-        User user = new User(username, positionX, positionY);
         Map<String, String> map = new HashMap<>();
-        map.put("name", user.getName());
-        map.put("posX", user.getPosX());
-        map.put("posY", user.getPosY());
-        dbReference.child(user_uuid).setValue(map);
+        map.put("name", username);
+        map.put("posX", String.valueOf(positionX));
+        map.put("posY", String.valueOf(positionY));
+        map.put("tank_type", String.valueOf(tank_type));
+        map.put("rotation_angle", String.valueOf(previousRotationAngle));
+        dbReference.child(group_uuid).child(user_uuid).setValue(map);
     }
 
 
-
-    public int getPlayerCenterX() {
-        return playerCenterX;
+    public void setPositionX(double positionX) {
+        this.positionX = positionX;
     }
 
-    public int getPlayerCenterY() {
-        return playerCenterY;
+    public void setPositionY(double positionY) {
+        this.positionY = positionY;
     }
 
-    public double getPositionX() {
-        return positionX;
+    public void setPreviousRotationAngle(float previousRotationAngle) {
+        this.previousRotationAngle = previousRotationAngle;
     }
 
-    public double getPositionY() {
-        return positionY;
-    }
-//    public void setPosition(double positionX, double positionY) {
-//        this.positionX = positionX;
-//        this.positionY = positionY;
-//    }
+
 }

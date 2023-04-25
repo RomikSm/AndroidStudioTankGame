@@ -1,17 +1,25 @@
 package com.example.androidstudiotankgame;
 
+import static com.example.androidstudiotankgame.MainActivity.dbReference;
+import static com.example.androidstudiotankgame.MainActivity.screenHeight;
+
+import static com.example.androidstudiotankgame.PlayerName.second_player_uuid;
 import static com.example.androidstudiotankgame.TankChoice.tank_type;
+import static com.example.androidstudiotankgame.WaitingRoom.retrieved_tank_type;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+
+import com.google.firebase.database.DataSnapshot;
+
+import java.util.HashMap;
 
 /**
  * Game manages all objects int the game and is responsible for updating all states and render all
@@ -19,7 +27,8 @@ import androidx.core.content.ContextCompat;
  */
 
 public class Game extends SurfaceView implements SurfaceHolder.Callback {
-    private Player player;
+    public static Player player;
+    public static Player player1;
     private final Joystick joystick;
     private GameLoop gameLoop;
 
@@ -33,18 +42,15 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         gameLoop = new GameLoop(this, surfaceHolder);
 
-        // get the display height
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-        int screenHeight = displayMetrics.heightPixels;
-
         //initialize game objects
         joystick = new Joystick(275, screenHeight-400, 150, 75);
         player = new Player(getContext(), 500, 500, tank_type);
+        player1 = new Player(getContext(), 500, 500, retrieved_tank_type);
 
         setFocusable(true);
     }
+
+
 
 
 
@@ -96,6 +102,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         drawFPS(canvas);
         joystick.draw(canvas);
         player.draw(canvas, joystick.getRotationAngle());
+        player1.draw(canvas);
 
     }
 

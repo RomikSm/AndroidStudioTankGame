@@ -1,14 +1,18 @@
 <resources>
     <string name="app_name">AndroidStudioTankGame</string>
-    <string name="enter_name">Enter your name:</string>
     <string name="game_name">GAME NAME</string>
     <string name="play">PLAY!</string>
     <string name="nickname">nickname</string>
-    <string name="join_group">Join</string>
-    <string name="join_group_hint">Enter code here</string>
-    <string name="tank_choice">Choose your tank:</string>
+    <string name="join">Join</string>
+    <string name="create">Create</string>
+    <string name="enter_code">Enter code</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="choose_your_tank">Choose your tank:</string>
     <string name="water">Water</string>
     <string name="earth">Earth</string>
     <string name="fire">Fire</string>
     <string name="air">Air</string>
+    <string name="your_code">Your code:</string>
+    <string name="waiting">Waiting for second player to join</string>
+    <string name="waiting_tank_pick">Waiting for second player to choose a tank...</string>
 </resources>

@@ -7,12 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 public class GameModeChoice extends AppCompatActivity {
 
     ImageButton onlineBtn;
     ImageButton offlineBtn;
+    public static String game_mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +29,7 @@ public class GameModeChoice extends AppCompatActivity {
         offlineBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                game_mode = "offline";
                 openTankChoiceActivity();
             }
         });
@@ -36,13 +37,20 @@ public class GameModeChoice extends AppCompatActivity {
         onlineBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(GameModeChoice.this, "ЄБАВ Я В РОТ ТОЙ ОНЛАЙН", Toast.LENGTH_SHORT).show();
+                game_mode = "online";
+                openOnlineMenuActivity();
             }
         });
     }
 
     public void openTankChoiceActivity(){
         Intent intent = new Intent(this, TankChoice.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    public void openOnlineMenuActivity(){
+        Intent intent = new Intent(this, PlayerName.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }

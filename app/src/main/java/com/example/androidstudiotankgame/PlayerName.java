@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -25,9 +26,10 @@ public class PlayerName extends AppCompatActivity {
     public static String username;
     FirebaseDatabase database;
     DatabaseReference dbReference;
-    public static String user_uuid;
+    public final static String user_uuid = UUID.randomUUID().toString();
+    public static String group_uuid;
+    public static String second_player_uuid;
 
-    public PlayerName(){}
 
 
     @SuppressLint("MissingInflatedId")
@@ -44,14 +46,12 @@ public class PlayerName extends AppCompatActivity {
         usernameEditText = findViewById(R.id.usernameEditText);
 
 
-
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 username = usernameEditText.getText().toString().trim();
-                database = FirebaseDatabase.getInstance();
-                dbReference = database.getReference("Users");
 
+                //setting random username if user didn't write it
                 if(username.isEmpty()){
                     username = "Player" + String.valueOf(
                             new Random().ints(100000,
@@ -60,40 +60,15 @@ public class PlayerName extends AppCompatActivity {
                             .getAsInt());
                 }
 
-                user_uuid = UUID.randomUUID().toString();
-
-                pushPositionToDatabase();
-
-                openGameModeChoiceActivity();
+                openOnlineMenuActivity();
             }
         });
 
     }
 
-    private void pushPositionToDatabase(){
-        User user = new User(username, 0, 0);
-        Map<String, String> map = new HashMap<>();
-        map.put("name", user.getName());
-        map.put("posX", user.getPosX());
-        map.put("posY", user.getPosY());
-        dbReference.child(user_uuid).setValue(map);
-    }
-
-    public void openGameModeChoiceActivity(){
-        Intent intent = new Intent(this, GameModeChoice.class);
+    public void openOnlineMenuActivity(){
+        Intent intent = new Intent(this, OnlineMenu.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public FirebaseDatabase getDatabase() {
-        return database;
-    }
-
-    public DatabaseReference getDbReference() {
-        return dbReference;
     }
 }
