@@ -16,8 +16,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
     private ImageButton startBtn;
-    public static int screenHeight;
+
     public static int screenWidth;
+    public static int screenHeight;
 
     public static final FirebaseDatabase database = FirebaseDatabase.getInstance();
     public static final DatabaseReference dbReference = database.getReference("Groups");
@@ -28,12 +29,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        System.out.println(R.drawable.water_tank); //2131165436
-        System.out.println(R.drawable.fire_tank); //2131165341
-        System.out.println(R.drawable.air_tank); //2131165304
-        System.out.println(R.drawable.earth_tank); //2131165340
-
-
 
         //making fullscreen with no status bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -41,10 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
         //getting the display height and width
         DisplayMetrics displayMetrics = new DisplayMetrics();
-        WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         screenHeight = displayMetrics.heightPixels;
-        screenWidth = displayMetrics.heightPixels;
+        screenWidth = displayMetrics.widthPixels;
 
         startBtn = findViewById(R.id.startBtn);
         startBtn.setOnClickListener(new View.OnClickListener() {

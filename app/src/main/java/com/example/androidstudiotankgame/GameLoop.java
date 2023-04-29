@@ -5,7 +5,7 @@ import android.view.SurfaceHolder;
 
 
 public class GameLoop extends Thread{
-    public static final double MAX_UPS = 60.0;
+    public static final double MAX_UPS = 240.0;
     private static final double UPS_PERIOD = 1E+3/MAX_UPS;
     private boolean isRunning = false;
     private final SurfaceHolder surfaceHolder;
@@ -80,7 +80,7 @@ public class GameLoop extends Thread{
                 }
             }
 
-            //skip frames to keep up with UPS
+//            //skip frames to keep up with UPS
             while(sleepTime < 0 && updateCount < MAX_UPS-1){
                 game.update();
                 updateCount++;
