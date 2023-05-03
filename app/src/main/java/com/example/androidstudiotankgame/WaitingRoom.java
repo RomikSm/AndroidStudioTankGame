@@ -1,6 +1,5 @@
 package com.example.androidstudiotankgame;
 
-import static com.example.androidstudiotankgame.Game.player1;
 import static com.example.androidstudiotankgame.MainActivity.dbReference;
 import static com.example.androidstudiotankgame.MainActivity.gameCode;
 import static com.example.androidstudiotankgame.PlayerName.group_uuid;
@@ -60,7 +59,7 @@ public class WaitingRoom extends AppCompatActivity {
 
     }
     public void openOnlineGameActivity(){
-        Intent intent = new Intent(this, OfflineGame.class);
+        Intent intent = new Intent(this, OnlineGame.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }

@@ -4,32 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#5CBD78"
     tools:context=".MainActivity">
 
-    <FrameLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="#5CBD78"
+    <ImageButton
+        android:id="@+id/startBtn"
+        android:layout_width="395dp"
+        android:layout_height="215dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="16:9"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5">
-
-        <ImageButton
-            android:id="@+id/startBtn"
-            android:layout_width="442dp"
-            android:layout_height="279dp"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/start_button" />
-
-    </FrameLayout>
+        app:srcCompat="@drawable/start_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

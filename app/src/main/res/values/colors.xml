@@ -8,5 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="magenta">#bc2649</color>
+    <color name="healthBarBorder">#A0A0A0</color>
+    <color name="healthBarHealth">#00FF00</color>
+    <color name="gameOver">#9E0B00</color>
 
 </resources>
