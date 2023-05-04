@@ -1,8 +1,6 @@
 package com.example.androidstudiotankgame;
 
 import static com.example.androidstudiotankgame.GameModeChoice.game_mode;
-import static com.example.androidstudiotankgame.MainActivity.dbReference;
-import static com.example.androidstudiotankgame.MainActivity.gameCode;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -75,7 +73,7 @@ public class TankChoice extends AppCompatActivity implements View.OnClickListene
     }
 
     public void openOfflineGameActivity(){
-        Intent intent = new Intent(this, OfflineGame.class);
+        Intent intent = new Intent(this, OfflineGameActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }

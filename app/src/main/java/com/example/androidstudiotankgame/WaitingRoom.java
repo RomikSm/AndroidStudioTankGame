@@ -59,7 +59,7 @@ public class WaitingRoom extends AppCompatActivity {
 
     }
     public void openOnlineGameActivity(){
-        Intent intent = new Intent(this, OnlineGame.class);
+        Intent intent = new Intent(this, OnlineGameActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }

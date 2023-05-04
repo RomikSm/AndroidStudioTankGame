@@ -1,11 +1,14 @@
 package com.example.androidstudiotankgame;
 
 import static com.example.androidstudiotankgame.GameModeChoice.game_mode;
-import static com.example.androidstudiotankgame.MainActivity.screenHeight;
 
+
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -40,6 +43,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     private int numberOfSpellsToCast = 0;
     private GameOver gameOver;
     private Performance performance;
+    private GameDisplay gameDisplay;
 
 
     public Game(Context context) {
@@ -54,10 +58,16 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         //initialize game panels
         performance = new Performance(context, gameLoop);
         gameOver = new GameOver(context);
-        joystick = new Joystick(275, screenHeight-400, 150, 75);
+        joystick = new Joystick(275, 700, 150, 75);
 
         //initialize game objects
         player = new Player(getContext(), joystick, 2*500, 500, 40);
+
+        //initialize game display and center it around the player
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        gameDisplay = new GameDisplay(displayMetrics.widthPixels, displayMetrics.heightPixels, player);
+
 //        if(game_mode.equals("online")){
 //            player1 = new Player(getContext(), joystick, 500, 500, retrieved_tank_type);
 //        }
@@ -110,17 +120,21 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder holder) {
+        Log.d("Game.java", "surfaceCreated()");
+        if(gameLoop.getState().equals(Thread.State.TERMINATED)) {
+            gameLoop = new GameLoop(this, holder);
+        }
         gameLoop.startLoop();
     }
 
     @Override
     public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
-
+        Log.d("Game.java", "surfaceChanged()");
     }
 
     @Override
     public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
-
+        Log.d("Game.java", "surfaceDestroyed()");
     }
 
     @Override
@@ -130,13 +144,13 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         Performance.drawFPS(canvas);
 
         //draw game objects
-        player.draw(canvas);
+        player.draw(canvas, gameDisplay);
 
         for (Enemy enemy : enemyList){
-            enemy.draw(canvas);
+            enemy.draw(canvas, gameDisplay);
         }
         for(Spell spell : spellList){
-            spell.draw(canvas);
+            spell.draw(canvas, gameDisplay);
         }
 
         //draw game panels
@@ -210,5 +224,11 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
         }
+
+        gameDisplay.update();
+    }
+
+    public void pause() {
+        gameLoop.stopLoop();
     }
 }

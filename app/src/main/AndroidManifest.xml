@@ -17,7 +17,7 @@
         android:theme="@style/Theme.AndroidStudioTankGame"
         tools:targetApi="31">
         <activity
-            android:name=".OnlineGame"
+            android:name=".OnlineGameActivity"
             android:exported="false"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.NoActionBar">
@@ -44,7 +44,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".OfflineGame"
+            android:name=".OfflineGameActivity"
             android:exported="false"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.NoActionBar">

@@ -1,7 +1,7 @@
 package com.example.androidstudiotankgame.gameobject;
 
 import static com.example.androidstudiotankgame.MainActivity.dbReference;
-import static com.example.androidstudiotankgame.MainActivity.screenHeight;
+
 import static com.example.androidstudiotankgame.PlayerName.group_uuid;
 import static com.example.androidstudiotankgame.PlayerName.user_uuid;
 import static com.example.androidstudiotankgame.PlayerName.username;
@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 
+import com.example.androidstudiotankgame.GameDisplay;
 import com.example.androidstudiotankgame.GameLoop;
 import com.example.androidstudiotankgame.gamepanel.HealthBar;
 import com.example.androidstudiotankgame.gamepanel.Joystick;
@@ -33,7 +34,7 @@ public class Player extends Circle {
     private Bitmap tankBitMap;
     public static final double SPEED_PIXELS_PER_SECOND = 600.0;
     public static final double MAX_SPEED = SPEED_PIXELS_PER_SECOND / GameLoop.MAX_UPS;
-    private final int PLAYER_HEIGHT = (int) (0.1*screenHeight);
+    private final int PLAYER_HEIGHT = 340;
     private final int PLAYER_WIDTH = PLAYER_HEIGHT*3/2;
 
     private final int PLAYER_CENTER_X = PLAYER_WIDTH /2;
@@ -124,9 +125,9 @@ public class Player extends Circle {
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
-        healthBar.draw(canvas);
+    public void draw(Canvas canvas, GameDisplay gameDisplay) {
+        super.draw(canvas, gameDisplay);
+        healthBar.draw(canvas, gameDisplay);
     }
 
     public int getHealthPoints() {

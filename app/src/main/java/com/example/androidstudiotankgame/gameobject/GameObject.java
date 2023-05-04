@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 
 import androidx.annotation.NonNull;
 
+import com.example.androidstudiotankgame.GameDisplay;
+
 public abstract class GameObject {
     protected double positionX;
     protected double positionY;
@@ -25,7 +27,7 @@ public abstract class GameObject {
         );
     }
 
-    public abstract void draw(@NonNull Canvas canvas);
+    public abstract void draw(@NonNull Canvas canvas, GameDisplay gameDisplay);
 
     public abstract void update();
 

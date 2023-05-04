@@ -17,9 +17,6 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends AppCompatActivity {
     private ImageButton startBtn;
 
-    public static int screenWidth;
-    public static int screenHeight;
-
     public static final FirebaseDatabase database = FirebaseDatabase.getInstance();
     public static final DatabaseReference dbReference = database.getReference("Groups");
 
@@ -33,12 +30,6 @@ public class MainActivity extends AppCompatActivity {
         //making fullscreen with no status bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        //getting the display height and width
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        screenHeight = displayMetrics.heightPixels;
-        screenWidth = displayMetrics.widthPixels;
 
         startBtn = findViewById(R.id.startBtn);
         startBtn.setOnClickListener(new View.OnClickListener() {
