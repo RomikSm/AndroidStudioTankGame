@@ -21,7 +21,7 @@ import com.example.androidstudiotankgame.gamepanel.HealthBar;
 import com.example.androidstudiotankgame.gamepanel.Joystick;
 import com.example.androidstudiotankgame.R;
 import com.example.androidstudiotankgame.Utils;
-
+import com.example.androidstudiotankgame.graphics.Sprite;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,22 +34,24 @@ public class Player extends Circle {
     private Bitmap tankBitMap;
     public static final double SPEED_PIXELS_PER_SECOND = 600.0;
     public static final double MAX_SPEED = SPEED_PIXELS_PER_SECOND / GameLoop.MAX_UPS;
-    private final int PLAYER_HEIGHT = 340;
+    private final int PLAYER_HEIGHT = 120;
     private final int PLAYER_WIDTH = PLAYER_HEIGHT*3/2;
 
-    private final int PLAYER_CENTER_X = PLAYER_WIDTH /2;
-    private final int PLAYER_CENTER_Y = PLAYER_HEIGHT/2;
+    private final int PLAYER_HALF_WIDTH = PLAYER_WIDTH /2;
+    private final int PLAYER_HALF_HEIGHT = PLAYER_HEIGHT/2;
     private float previousRotationAngle = 0;
     private int tankType;
     private HealthBar healthBar;
     private int healthPoints;
+    private Sprite sprite;
 
 
-    public Player(@NonNull Context context, Joystick joystick, double positionX, double positionY, double radius){
+    public Player(@NonNull Context context, Joystick joystick, double positionX, double positionY, double radius, Sprite sprite){
         super(context, ContextCompat.getColor(context, R.color.magenta), positionX, positionY, radius);
         this.joystick = joystick;
         this.healthBar = new HealthBar(context, this);
         this.healthPoints = MAX_HEALTH_POINTS;
+        this.sprite = sprite;
 
 
         //GAWNOCODE (I WILL CHANGE LATER)
@@ -99,7 +101,7 @@ public class Player extends Circle {
 //        }
     }
 
-    //method that pushes updated data to database
+    //method that pushes updated data to realtime database
     private void pushPositionToDatabase(){
         Map<String, String> map = new HashMap<>();
         map.put("name", username);
@@ -110,6 +112,23 @@ public class Player extends Circle {
         dbReference.child(group_uuid).child(user_uuid).setValue(map);
     }
 
+    public void draw(Canvas canvas, GameDisplay gameDisplay, int rotationAngle) {
+        if(rotationAngle!=0) previousRotationAngle = rotationAngle;
+        sprite.draw(
+                canvas,
+                (int) gameDisplay.gameToDisplayCoordinatesX(positionX - PLAYER_HALF_WIDTH),
+                (int) gameDisplay.gameToDisplayCoordinatesY(positionY - PLAYER_HALF_HEIGHT),
+                (int) gameDisplay.gameToDisplayCoordinatesX(positionX + PLAYER_HALF_WIDTH),
+                (int) gameDisplay.gameToDisplayCoordinatesY(positionY + PLAYER_HALF_HEIGHT),
+                previousRotationAngle,
+                gameDisplay
+        );
+        healthBar.draw(canvas, gameDisplay);
+    }
+
+    public void setPreviousRotationAngle(float previousRotationAngle) {
+        this.previousRotationAngle = previousRotationAngle;
+    }
 
     public void setPositionX(double positionX) {
         this.positionX = positionX;
@@ -117,17 +136,6 @@ public class Player extends Circle {
 
     public void setPositionY(double positionY) {
         this.positionY = positionY;
-    }
-
-
-    public void setPreviousRotationAngle(float previousRotationAngle) {
-        this.previousRotationAngle = previousRotationAngle;
-    }
-
-    @Override
-    public void draw(Canvas canvas, GameDisplay gameDisplay) {
-        super.draw(canvas, gameDisplay);
-        healthBar.draw(canvas, gameDisplay);
     }
 
     public int getHealthPoints() {

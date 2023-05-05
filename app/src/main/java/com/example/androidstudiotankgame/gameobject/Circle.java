@@ -40,4 +40,5 @@ public abstract class Circle extends GameObject {
                 paint
         );
     }
+
 }

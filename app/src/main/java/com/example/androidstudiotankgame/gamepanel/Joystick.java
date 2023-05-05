@@ -106,9 +106,7 @@ public class Joystick {
     //finding player direction angle
     public float getRotationAngle(){
         double sideDistance = innerCircleCenterPositionX - outerCircleCenterPositionX;
-        if(sideDistance==0){
-            return 0;
-        }
+        if(sideDistance==0) return 0;
         return (float) Math.toDegrees(Math.atan2(innerCircleCenterPositionY - outerCircleCenterPositionY, innerCircleCenterPositionX - outerCircleCenterPositionX));
     }
 

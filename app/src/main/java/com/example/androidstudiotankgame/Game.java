@@ -3,6 +3,7 @@ package com.example.androidstudiotankgame;
 import static com.example.androidstudiotankgame.GameModeChoice.game_mode;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -22,6 +23,7 @@ import com.example.androidstudiotankgame.gameobject.Spell;
 import com.example.androidstudiotankgame.gamepanel.GameOver;
 import com.example.androidstudiotankgame.gamepanel.Joystick;
 import com.example.androidstudiotankgame.gamepanel.Performance;
+import com.example.androidstudiotankgame.graphics.Sprite;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -61,7 +63,8 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         joystick = new Joystick(275, 700, 150, 75);
 
         //initialize game objects
-        player = new Player(getContext(), joystick, 2*500, 500, 40);
+        Sprite sprite = new Sprite(context, TankChoice.tank_type);
+        player = new Player(getContext(), joystick, 2*500, 500, 120, sprite);
 
         //initialize game display and center it around the player
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -144,7 +147,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         Performance.drawFPS(canvas);
 
         //draw game objects
-        player.draw(canvas, gameDisplay);
+        player.draw(canvas, gameDisplay, (int) joystick.getRotationAngle());
 
         for (Enemy enemy : enemyList){
             enemy.draw(canvas, gameDisplay);
