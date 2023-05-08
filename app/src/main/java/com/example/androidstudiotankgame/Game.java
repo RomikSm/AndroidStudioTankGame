@@ -24,6 +24,8 @@ import com.example.androidstudiotankgame.gamepanel.GameOver;
 import com.example.androidstudiotankgame.gamepanel.Joystick;
 import com.example.androidstudiotankgame.gamepanel.Performance;
 import com.example.androidstudiotankgame.graphics.Sprite;
+import com.example.androidstudiotankgame.graphics.SpriteSheet;
+import com.example.androidstudiotankgame.map.TileMap;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,6 +40,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     public static Player player;
     public static Player player1;
     private final Joystick joystick;
+    private final TileMap tilemap;
     private GameLoop gameLoop;
     private List<Enemy> enemyList = new ArrayList<>();
     private List<Spell> spellList = new ArrayList<>();
@@ -63,6 +66,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         joystick = new Joystick(275, 700, 150, 75);
 
         //initialize game objects
+        SpriteSheet spriteSheet = new SpriteSheet(context);
         Sprite sprite = new Sprite(context, TankChoice.tank_type);
         player = new Player(getContext(), joystick, 2*500, 500, 120, sprite);
 
@@ -70,6 +74,9 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         gameDisplay = new GameDisplay(displayMetrics.widthPixels, displayMetrics.heightPixels, player);
+
+        //initialize Tilemap
+        tilemap = new TileMap(spriteSheet);
 
 //        if(game_mode.equals("online")){
 //            player1 = new Player(getContext(), joystick, 500, 500, retrieved_tank_type);
@@ -143,8 +150,9 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        Performance.drawUPS(canvas);
-        Performance.drawFPS(canvas);
+
+        //draw Tilemap
+        tilemap.draw(canvas, gameDisplay);
 
         //draw game objects
         player.draw(canvas, gameDisplay, (int) joystick.getRotationAngle());

@@ -2,6 +2,7 @@ package com.example.androidstudiotankgame.gameobject;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
