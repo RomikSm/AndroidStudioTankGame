@@ -11,7 +11,6 @@ import com.example.androidstudiotankgame.gameobject.GameObject;
 
 public class Sprite {
     private Bitmap bitmap;
-    private SpriteSheet spriteSheet;
     private Rect rect;
 
     public Sprite(Context context, int drawable){
@@ -20,12 +19,8 @@ public class Sprite {
         bitmap = BitmapFactory.decodeResource(context.getResources(), drawable, bitmapOptions);
     }
 
-    public Sprite(SpriteSheet spriteSheet, Rect rect) {
-        this.spriteSheet = spriteSheet;
-        this.rect = rect;
-    }
 
-    public void draw(Canvas canvas, int left, int top, int right, int bottom, float rotationAngle, GameDisplay gameDisplay) {
+    public void draw(Canvas canvas, int left, int top, int right, int bottom, float rotationAngle) {
         canvas.save();
         canvas.rotate(rotationAngle,(float) left+(right-left)/2,(float) top+(bottom-top)/2);
         canvas.drawBitmap(
@@ -42,14 +37,7 @@ public class Sprite {
         canvas.restore();
     }
 
-    public void draw(Canvas canvas, int x, int y) {
-        canvas.drawBitmap(
-                spriteSheet.getBitmap(),
-                rect,
-                new Rect(x, y, x+getWidth(), y+getHeight()),
-                null
-        );
-    }
+
 
     public int getWidth() {
         return rect.width();

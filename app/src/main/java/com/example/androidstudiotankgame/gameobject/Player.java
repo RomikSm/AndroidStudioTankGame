@@ -95,7 +95,7 @@ public class Player extends Circle {
             directionX = velocityX/distance;
             directionY = velocityY/distance;
         }
-
+        pushPositionToDatabase();
 //        if(game_mode.equals("online")) {
 //            pushPositionToDatabase();
 //        }
@@ -109,7 +109,8 @@ public class Player extends Circle {
         map.put("posY", String.valueOf(positionY));
         map.put("tank_type", String.valueOf(tank_type));
         map.put("rotation_angle", String.valueOf(previousRotationAngle));
-        dbReference.child(group_uuid).child(user_uuid).setValue(map);
+        //dbReference.child(group_uuid).child(user_uuid).setValue(map);
+        dbReference.child("test").child("test").setValue(map);
     }
 
     public void draw(Canvas canvas, GameDisplay gameDisplay, int rotationAngle) {
@@ -120,8 +121,7 @@ public class Player extends Circle {
                 (int) gameDisplay.gameToDisplayCoordinatesY(positionY - PLAYER_HALF_HEIGHT),
                 (int) gameDisplay.gameToDisplayCoordinatesX(positionX + PLAYER_HALF_WIDTH),
                 (int) gameDisplay.gameToDisplayCoordinatesY(positionY + PLAYER_HALF_HEIGHT),
-                previousRotationAngle,
-                gameDisplay
+                previousRotationAngle
         );
         healthBar.draw(canvas, gameDisplay);
     }

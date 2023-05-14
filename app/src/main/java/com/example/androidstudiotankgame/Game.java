@@ -23,9 +23,8 @@ import com.example.androidstudiotankgame.gameobject.Spell;
 import com.example.androidstudiotankgame.gamepanel.GameOver;
 import com.example.androidstudiotankgame.gamepanel.Joystick;
 import com.example.androidstudiotankgame.gamepanel.Performance;
+import com.example.androidstudiotankgame.graphics.Map;
 import com.example.androidstudiotankgame.graphics.Sprite;
-import com.example.androidstudiotankgame.graphics.SpriteSheet;
-import com.example.androidstudiotankgame.map.TileMap;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,7 +39,6 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     public static Player player;
     public static Player player1;
     private final Joystick joystick;
-    private final TileMap tilemap;
     private GameLoop gameLoop;
     private List<Enemy> enemyList = new ArrayList<>();
     private List<Spell> spellList = new ArrayList<>();
@@ -49,6 +47,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     private GameOver gameOver;
     private Performance performance;
     private GameDisplay gameDisplay;
+    private Map map;
 
 
     public Game(Context context) {
@@ -60,13 +59,15 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         gameLoop = new GameLoop(this, surfaceHolder);
 
+        //initialize game map
+        map = new Map(context);
+
         //initialize game panels
         performance = new Performance(context, gameLoop);
         gameOver = new GameOver(context);
         joystick = new Joystick(275, 700, 150, 75);
 
         //initialize game objects
-        SpriteSheet spriteSheet = new SpriteSheet(context);
         Sprite sprite = new Sprite(context, TankChoice.tank_type);
         player = new Player(getContext(), joystick, 2*500, 500, 120, sprite);
 
@@ -75,8 +76,6 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         gameDisplay = new GameDisplay(displayMetrics.widthPixels, displayMetrics.heightPixels, player);
 
-        //initialize Tilemap
-        tilemap = new TileMap(spriteSheet);
 
 //        if(game_mode.equals("online")){
 //            player1 = new Player(getContext(), joystick, 500, 500, retrieved_tank_type);
@@ -151,8 +150,8 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     public void draw(Canvas canvas) {
         super.draw(canvas);
 
-        //draw Tilemap
-        tilemap.draw(canvas, gameDisplay);
+        //draw game map
+        map.draw(canvas, gameDisplay);
 
         //draw game objects
         player.draw(canvas, gameDisplay, (int) joystick.getRotationAngle());

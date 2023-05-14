@@ -28,8 +28,19 @@ public class GameDisplay {
     }
 
     public void update(){
-        gameCenterX = centerObject.getPositionX();
-        gameCenterY = centerObject.getPositionY();
+        if(centerObject.getPositionX()-displayCenterX<0){
+            gameCenterX = displayCenterX;
+        }else{
+            gameCenterX = centerObject.getPositionX();
+        }
+        if(centerObject.getPositionY()-displayCenterY<0){
+            gameCenterY = displayCenterY;
+        }else{
+            gameCenterY = centerObject.getPositionY();
+        }
+
+//        gameCenterX = centerObject.getPositionX();
+//        gameCenterY = centerObject.getPositionY();
 
         gameToDisplayCoordinateOffsetX = displayCenterX - gameCenterX;
         gameToDisplayCoordinateOffsetY = displayCenterY - gameCenterY;
