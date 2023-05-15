@@ -47,7 +47,9 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     private GameOver gameOver;
     private Performance performance;
     private GameDisplay gameDisplay;
-    private Map map;
+    public static Map map;
+    public static int screen_height;
+    public static int screen_width;
 
 
     public Game(Context context) {
@@ -74,7 +76,9 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         //initialize game display and center it around the player
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        gameDisplay = new GameDisplay(displayMetrics.widthPixels, displayMetrics.heightPixels, player);
+        screen_height = displayMetrics.heightPixels;
+        screen_width = displayMetrics.widthPixels;
+        gameDisplay = new GameDisplay(screen_width, screen_height, player);
 
 
 //        if(game_mode.equals("online")){
@@ -151,7 +155,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
 
         //draw game map
-        map.draw(canvas, gameDisplay);
+        map.draw(canvas);
 
         //draw game objects
         player.draw(canvas, gameDisplay, (int) joystick.getRotationAngle());

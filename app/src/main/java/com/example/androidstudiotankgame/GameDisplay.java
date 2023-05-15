@@ -1,5 +1,7 @@
 package com.example.androidstudiotankgame;
 
+import static com.example.androidstudiotankgame.Game.map;
+
 import android.graphics.Rect;
 
 import com.example.androidstudiotankgame.gameobject.GameObject;
@@ -16,6 +18,7 @@ public class GameDisplay {
     private double gameCenterY;
     private GameObject centerObject;
 
+
     public GameDisplay(int widthPixels, int heightPixels, GameObject centerObject){
         this.widthPixels = widthPixels;
         this.heightPixels = heightPixels;
@@ -28,16 +31,16 @@ public class GameDisplay {
     }
 
     public void update(){
-        if(centerObject.getPositionX()-displayCenterX<0){
-            gameCenterX = displayCenterX;
-        }else{
-            gameCenterX = centerObject.getPositionX();
-        }
-        if(centerObject.getPositionY()-displayCenterY<0){
-            gameCenterY = displayCenterY;
-        }else{
-            gameCenterY = centerObject.getPositionY();
-        }
+//        if(centerObject.getPositionX()-displayCenterX<0 ){
+//            gameCenterX = displayCenterX;
+//        }else{
+//            gameCenterX = centerObject.getPositionX();
+//        }
+//        if(centerObject.getPositionY()-displayCenterY<0){
+//            gameCenterY = displayCenterY;
+//        }else{
+//            gameCenterY = centerObject.getPositionY();
+//        }
 
 //        gameCenterX = centerObject.getPositionX();
 //        gameCenterY = centerObject.getPositionY();
