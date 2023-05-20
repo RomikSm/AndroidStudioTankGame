@@ -45,6 +45,9 @@ public class GameDisplay {
 //        gameCenterX = centerObject.getPositionX();
 //        gameCenterY = centerObject.getPositionY();
 
+        gameCenterX = displayCenterX;
+        gameCenterY = displayCenterY;
+
         gameToDisplayCoordinateOffsetX = displayCenterX - gameCenterX;
         gameToDisplayCoordinateOffsetY = displayCenterY - gameCenterY;
     }

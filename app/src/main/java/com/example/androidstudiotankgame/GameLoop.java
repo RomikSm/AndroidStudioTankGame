@@ -1,5 +1,9 @@
 package com.example.androidstudiotankgame;
 
+import static com.example.androidstudiotankgame.Game.map;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -48,7 +52,9 @@ public class GameLoop extends Thread{
 
         //game loop
         Canvas canvas = null;
+
         startTime = System.currentTimeMillis();
+
         while (isRunning){
 
             //try to update and render game

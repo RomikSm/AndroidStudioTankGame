@@ -2,8 +2,6 @@ package com.example.androidstudiotankgame.gameobject;
 
 import static com.example.androidstudiotankgame.MainActivity.dbReference;
 
-import static com.example.androidstudiotankgame.PlayerName.group_uuid;
-import static com.example.androidstudiotankgame.PlayerName.user_uuid;
 import static com.example.androidstudiotankgame.PlayerName.username;
 import static com.example.androidstudiotankgame.TankChoice.tank_type;
 
@@ -20,63 +18,42 @@ import com.example.androidstudiotankgame.GameLoop;
 import com.example.androidstudiotankgame.gamepanel.HealthBar;
 import com.example.androidstudiotankgame.gamepanel.Joystick;
 import com.example.androidstudiotankgame.R;
-import com.example.androidstudiotankgame.Utils;
+import com.example.androidstudiotankgame.utils.Utils;
 import com.example.androidstudiotankgame.graphics.Sprite;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Player extends Circle {
-
-
+public class Player extends Rectangle {
 
     private final Joystick joystick;
     public static final int MAX_HEALTH_POINTS = 5;
     private Bitmap tankBitMap;
     public static final double SPEED_PIXELS_PER_SECOND = 600.0;
     public static final double MAX_SPEED = SPEED_PIXELS_PER_SECOND / GameLoop.MAX_UPS;
-    private final int PLAYER_HEIGHT = 120;
+    private final int PLAYER_HEIGHT = 80;
     private final int PLAYER_WIDTH = PLAYER_HEIGHT*3/2;
 
     private final int PLAYER_HALF_WIDTH = PLAYER_WIDTH /2;
     private final int PLAYER_HALF_HEIGHT = PLAYER_HEIGHT/2;
-    private float previousRotationAngle = 0;
+
     private int tankType;
     private HealthBar healthBar;
     private int healthPoints;
     private Sprite sprite;
 
 
-    public Player(@NonNull Context context, Joystick joystick, double positionX, double positionY, double radius, Sprite sprite){
-        super(context, ContextCompat.getColor(context, R.color.magenta), positionX, positionY, radius);
+    public Player(@NonNull Context context, Joystick joystick, double positionX, double positionY, Sprite sprite){
+        super(context, positionX, positionY);
         this.joystick = joystick;
         this.healthBar = new HealthBar(context, this);
         this.healthPoints = MAX_HEALTH_POINTS;
         this.sprite = sprite;
-
-
-        //GAWNOCODE (I WILL CHANGE LATER)
-        //this.tankType = drawable;
-        //this.tankBitMap = BitmapFactory.decodeResource(context.getResources(), tankType);
-
+        this.x1 = positionX - PLAYER_HALF_WIDTH;
+        this.y1 = positionY - PLAYER_HALF_HEIGHT;
+        this.x2 = positionX + PLAYER_HALF_WIDTH;
+        this.y2 = positionY + PLAYER_HALF_HEIGHT;
+        this.previousRotationAngle = 0;
     }
-
-    //GAWNOCODE (I WILL CHANGE LATER)
-//    public void draw(@NonNull Canvas canvas, float rotationAngle) {
-//        canvas.save();
-//        if(rotationAngle!=0) previousRotationAngle = rotationAngle;
-//        canvas.rotate(previousRotationAngle, (float) (positionX), (float) (positionY));
-//        canvas.drawBitmap(tankBitMap, null, new Rect((int) (positionX - PLAYER_CENTER_X), (int) (positionY - PLAYER_CENTER_Y), (int) (positionX + PLAYER_CENTER_X), (int) (positionY + PLAYER_CENTER_Y)), paint);
-//        canvas.restore();
-//    }
-
-    //GAWNOCODE (I WILL CHANGE LATER)
-//    public void draw(@NonNull Canvas canvas) {
-//        canvas.save();
-//        canvas.rotate(previousRotationAngle, (float) (positionX), (float) (positionY));
-//        canvas.drawBitmap(tankBitMap, null, new Rect((int) (positionX - PLAYER_CENTER_X), (int) (positionY - PLAYER_CENTER_Y), (int) (positionX + PLAYER_CENTER_X), (int) (positionY + PLAYER_CENTER_Y)), paint);
-//        canvas.restore();
-//    }
-
 
 
     public void update() {
@@ -87,6 +64,10 @@ public class Player extends Circle {
         //updating position
         positionX += velocityX;
         positionY += velocityY;
+        x1 = positionX - PLAYER_HALF_WIDTH;
+        y1 = positionY - PLAYER_HALF_HEIGHT;
+        x2 = positionX + PLAYER_HALF_WIDTH;
+        y2 = positionY + PLAYER_HALF_HEIGHT;
 
         //updating direction
         if(velocityX !=0 || velocityY !=0){
@@ -95,7 +76,7 @@ public class Player extends Circle {
             directionX = velocityX/distance;
             directionY = velocityY/distance;
         }
-        pushPositionToDatabase();
+
 //        if(game_mode.equals("online")) {
 //            pushPositionToDatabase();
 //        }
@@ -117,10 +98,10 @@ public class Player extends Circle {
         if(rotationAngle!=0) previousRotationAngle = rotationAngle;
         sprite.draw(
                 canvas,
-                (int) gameDisplay.gameToDisplayCoordinatesX(positionX - PLAYER_HALF_WIDTH),
-                (int) gameDisplay.gameToDisplayCoordinatesY(positionY - PLAYER_HALF_HEIGHT),
-                (int) gameDisplay.gameToDisplayCoordinatesX(positionX + PLAYER_HALF_WIDTH),
-                (int) gameDisplay.gameToDisplayCoordinatesY(positionY + PLAYER_HALF_HEIGHT),
+                (int) gameDisplay.gameToDisplayCoordinatesX(x1),
+                (int) gameDisplay.gameToDisplayCoordinatesY(y1),
+                (int) gameDisplay.gameToDisplayCoordinatesX(x2),
+                (int) gameDisplay.gameToDisplayCoordinatesY(y2),
                 previousRotationAngle
         );
         healthBar.draw(canvas, gameDisplay);

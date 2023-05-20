@@ -1,4 +1,4 @@
-package com.example.androidstudiotankgame;
+package com.example.androidstudiotankgame.utils;
 
 public class Utils {
     /**

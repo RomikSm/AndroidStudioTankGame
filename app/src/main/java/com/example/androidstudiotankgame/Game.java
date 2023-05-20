@@ -25,6 +25,7 @@ import com.example.androidstudiotankgame.gamepanel.Joystick;
 import com.example.androidstudiotankgame.gamepanel.Performance;
 import com.example.androidstudiotankgame.graphics.Map;
 import com.example.androidstudiotankgame.graphics.Sprite;
+import com.example.androidstudiotankgame.utils.CircleRectangleCollisionDetector;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -59,10 +60,16 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         SurfaceHolder surfaceHolder = getHolder();
         surfaceHolder.addCallback(this);
 
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        screen_height = displayMetrics.heightPixels;
+        screen_width = displayMetrics.widthPixels;
+
         gameLoop = new GameLoop(this, surfaceHolder);
 
         //initialize game map
         map = new Map(context);
+
 
         //initialize game panels
         performance = new Performance(context, gameLoop);
@@ -71,13 +78,9 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         //initialize game objects
         Sprite sprite = new Sprite(context, TankChoice.tank_type);
-        player = new Player(getContext(), joystick, 2*500, 500, 120, sprite);
+        player = new Player(getContext(), joystick, 2*500, 500, sprite);
 
         //initialize game display and center it around the player
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        screen_height = displayMetrics.heightPixels;
-        screen_width = displayMetrics.widthPixels;
         gameDisplay = new GameDisplay(screen_width, screen_height, player);
 
 
@@ -150,6 +153,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         Log.d("Game.java", "surfaceDestroyed()");
     }
 
+
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
@@ -157,15 +161,17 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         //draw game map
         map.draw(canvas);
 
+        for(Spell spell : spellList){
+            spell.draw(canvas, gameDisplay);
+        }
+
         //draw game objects
         player.draw(canvas, gameDisplay, (int) joystick.getRotationAngle());
 
         for (Enemy enemy : enemyList){
             enemy.draw(canvas, gameDisplay);
         }
-        for(Spell spell : spellList){
-            spell.draw(canvas, gameDisplay);
-        }
+
 
         //draw game panels
         joystick.draw(canvas);
@@ -184,17 +190,15 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
 
     public void update() {
-
         //stop updating the game if the player is dead
         if(player.getHealthPoints() <= 0){
             return;
         }
-
         //update game state
         joystick.update();
         player.update();
-
         if(game_mode.equals("offline")){
+
             //Add enemy if it is time to spawn new enemies
             if(Enemy.readyToSpawn()){
                 enemyList.add(new Enemy(getContext(), player));
@@ -219,7 +223,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
             Iterator<Enemy> iteratorEnemy = enemyList.iterator();
             while(iteratorEnemy.hasNext()){
                 Circle enemy = iteratorEnemy.next();
-                if(Circle.isColliding(enemy, player)){
+                if(CircleRectangleCollisionDetector.isCircleTouchingRectangle(enemy, player)){
                     //Remove enemy if it collides with the player
                     iteratorEnemy.remove();
                     player.setHealthPoints(player.getHealthPoints() - 1);
@@ -245,4 +249,5 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     public void pause() {
         gameLoop.stopLoop();
     }
+
 }

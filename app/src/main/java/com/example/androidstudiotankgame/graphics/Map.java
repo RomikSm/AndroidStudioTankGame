@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 
 import com.example.androidstudiotankgame.GameDisplay;
@@ -17,24 +18,12 @@ public class Map {
 
 
     public Map(Context context){
-        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-        bitmapOptions.inScaled = false;
-        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.tilemap, bitmapOptions);
+        int right = (int)((double)screen_height/10*21);
+        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.tilemap);
+        bitmap = Bitmap.createScaledBitmap(bitmap, screen_width, screen_height, false);
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(
-                bitmap,
-                null,
-                new Rect(
-                        0,
-                        0,
-                        (int)((double)screen_height/9*15),
-                        screen_height
-
-                ),
-                null
-        );
-
+        canvas.drawBitmap(bitmap, new Matrix(), null);
     }
 }

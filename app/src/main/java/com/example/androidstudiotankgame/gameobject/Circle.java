@@ -12,7 +12,7 @@ public abstract class Circle extends GameObject {
     protected double radius;
 
     public Circle(Context context, int color, double positionX, double positionY, double radius) {
-        super(context, positionX, positionY, positionY, radius);
+        super(context, positionX, positionY);
 
         this.radius = radius;
 
@@ -24,11 +24,10 @@ public abstract class Circle extends GameObject {
     public static boolean isColliding(Circle obj1, Circle obj2) {
         double distance = getDistanceBetweenObjects(obj1, obj2);
         double distanceToCollision = obj1.getRadius() + obj2.getRadius();
-        if(distance < distanceToCollision) return true;
-        return false;
+        return distance < distanceToCollision;
     }
 
-    private double getRadius() {
+    public double getRadius() {
         return radius;
     }
 

@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import com.example.androidstudiotankgame.Utils;
+import com.example.androidstudiotankgame.utils.Utils;
 
 public class Joystick {
 

@@ -16,7 +16,7 @@ public abstract class GameObject {
     protected double directionX;
     protected double directionY;
 
-    public GameObject(Context context, double positionX, double positionY, double y, double radius){
+    public GameObject(Context context, double positionX, double positionY){
         this.positionX = positionX;
         this.positionY = positionY;
     }
